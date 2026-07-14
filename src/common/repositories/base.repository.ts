@@ -20,7 +20,7 @@ export abstract class BaseRepository<T extends ObjectLiteral, C extends DeepPart
     this.repository = dataSource.getRepository<T>(entity);
   }
 
-  private getActiveRepository(queryRunner?: QueryRunner): Repository<T> {
+  protected getActiveRepository(queryRunner?: QueryRunner): Repository<T> {
     if (queryRunner?.manager) {
       return queryRunner.manager.getRepository<T>(this.entity);
     }

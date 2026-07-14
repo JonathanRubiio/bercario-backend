@@ -2,12 +2,13 @@ import { DataSource } from 'typeorm';
 import { UserEntity } from './repositories/user/entities/user.entity';
 import { BusinessProfileEntity } from './repositories/business-profile/entities/business-profile.entity';
 import { LeadEntity } from './repositories/lead/entities/lead.entity';
+import { MembershipPackageEntity } from './repositories/membership-package/entities/membership-package.entity';
 import * as bcrypt from 'bcryptjs';
 
 const AppDataSource = new DataSource({
   type: 'mysql',
   url: process.env.DATABASE_URL || 'mysql://bercario_user:bercario_pass@localhost:3306/bercario',
-  entities: [UserEntity, BusinessProfileEntity, LeadEntity],
+  entities: [UserEntity, BusinessProfileEntity, LeadEntity, MembershipPackageEntity],
   synchronize: true,
 });
 
@@ -19,6 +20,14 @@ async function main() {
   await AppDataSource.query('DELETE FROM lead');
   await AppDataSource.query('DELETE FROM business_profile');
   await AppDataSource.query('DELETE FROM user');
+  await AppDataSource.query('DELETE FROM membership_package');
+
+  // Crear paquete de membresía Free
+  const freePackage = await AppDataSource.getRepository(MembershipPackageEntity).save({
+    id: 'de305d54-75b4-431b-adb2-eb6b9e546014',
+    name: 'Free',
+    maxCatalogImages: 5,
+  });
 
   // Crear usuario mayorista
   const mayoristaPass = await bcrypt.hash('demo1234', 10);
@@ -27,6 +36,7 @@ async function main() {
     password: mayoristaPass,
     name: 'Calzado La Frontera User',
     role: 'mayorista',
+    membershipPackageId: freePackage.id,
   });
 
   // Crear perfil comercial demo
@@ -129,6 +139,7 @@ async function main() {
     password: adminPass,
     name: 'Administrador Berçário',
     role: 'admin',
+    membershipPackageId: freePackage.id,
   });
 
   console.log('Semilla de base de datos completada exitosamente con TypeORM.');

@@ -12,10 +12,16 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.UploadService = void 0;
 const common_1 = require("@nestjs/common");
 const client_s3_1 = require("@aws-sdk/client-s3");
+const user_repository_1 = require("../user/repositories/user.repository");
+const business_profile_repository_1 = require("../business-profile/repositories/business-profile.repository");
 let UploadService = class UploadService {
+    userRepo;
+    profileRepo;
     s3Client;
     bucket;
-    constructor() {
+    constructor(userRepo, profileRepo) {
+        this.userRepo = userRepo;
+        this.profileRepo = profileRepo;
         const endpoint = process.env.S3_ENDPOINT;
         this.bucket = process.env.S3_BUCKET || 'bercario';
         this.s3Client = new client_s3_1.S3Client({
@@ -27,6 +33,19 @@ let UploadService = class UploadService {
             },
             forcePathStyle: true,
         });
+    }
+    async validateCatalogLimit(userId) {
+        const user = await this.userRepo.find()
+            .leftJoinAndSelect('user.membershipPackage', 'membershipPackage')
+            .where('user.id = :id', { id: userId })
+            .getOne();
+        const profile = await this.profileRepo.findById({ userId });
+        if (profile && user?.membershipPackage) {
+            const currentImagesCount = profile.products ? profile.products.length : 0;
+            if (currentImagesCount >= user.membershipPackage.maxCatalogImages) {
+                throw new common_1.BadRequestException('Has alcanzado el límite de imágenes permitidas en tu plan actual. Actualiza tu membresía.');
+            }
+        }
     }
     async onModuleInit() {
         try {
@@ -76,6 +95,7 @@ let UploadService = class UploadService {
 exports.UploadService = UploadService;
 exports.UploadService = UploadService = __decorate([
     (0, common_1.Injectable)(),
-    __metadata("design:paramtypes", [])
+    __metadata("design:paramtypes", [user_repository_1.UserRepository,
+        business_profile_repository_1.BusinessProfileRepository])
 ], UploadService);
 //# sourceMappingURL=upload.service.js.map

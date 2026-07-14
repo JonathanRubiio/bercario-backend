@@ -5,7 +5,7 @@ export declare abstract class BaseRepository<T extends ObjectLiteral, C extends 
     protected readonly dataSource: DataSource;
     protected readonly repository: Repository<T>;
     constructor(entity: EntityTarget<T>, dataSource: DataSource);
-    private getActiveRepository;
+    protected getActiveRepository(queryRunner?: QueryRunner): Repository<T>;
     deleteSensitiveData<K extends ObjectLiteral>(data: K): Partial<K>;
     find(alias?: string, queryRunner?: QueryRunner): SelectQueryBuilder<T>;
     findById(where: FindOptionsWhere<T>[] | FindOptionsWhere<T>, queryRunner?: QueryRunner): Promise<T | null>;

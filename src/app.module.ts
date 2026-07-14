@@ -6,6 +6,7 @@ import { AuthModule } from './repositories/auth/auth.module';
 import { BusinessProfileModule } from './repositories/business-profile/business-profile.module';
 import { LeadModule } from './repositories/lead/lead.module';
 import { UploadModule } from './repositories/upload/upload.module';
+import { MembershipPackageModule } from './repositories/membership-package/membership-package.module';
 
 @Module({
   imports: [
@@ -19,6 +20,7 @@ import { UploadModule } from './repositories/upload/upload.module';
     BusinessProfileModule,
     LeadModule,
     UploadModule,
+    MembershipPackageModule,
   ],
   controllers: [AppController],
   providers: [AppService],

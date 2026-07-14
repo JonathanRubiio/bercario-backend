@@ -9,29 +9,19 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.BusinessProfileRepository = void 0;
+exports.MembershipPackageRepository = void 0;
 const common_1 = require("@nestjs/common");
 const typeorm_1 = require("typeorm");
 const base_repository_1 = require("../../../common/repositories/base.repository");
-const business_profile_entity_1 = require("../entities/business-profile.entity");
-let BusinessProfileRepository = class BusinessProfileRepository extends base_repository_1.BaseRepository {
+const membership_package_entity_1 = require("../entities/membership-package.entity");
+let MembershipPackageRepository = class MembershipPackageRepository extends base_repository_1.BaseRepository {
     constructor(dataSource) {
-        super(business_profile_entity_1.BusinessProfileEntity, dataSource);
-    }
-    async findById(where, queryRunner) {
-        return await this.getActiveRepository(queryRunner).findOne({
-            where,
-            relations: {
-                user: {
-                    membershipPackage: true,
-                },
-            },
-        });
+        super(membership_package_entity_1.MembershipPackageEntity, dataSource);
     }
 };
-exports.BusinessProfileRepository = BusinessProfileRepository;
-exports.BusinessProfileRepository = BusinessProfileRepository = __decorate([
+exports.MembershipPackageRepository = MembershipPackageRepository;
+exports.MembershipPackageRepository = MembershipPackageRepository = __decorate([
     (0, common_1.Injectable)(),
     __metadata("design:paramtypes", [typeorm_1.DataSource])
-], BusinessProfileRepository);
-//# sourceMappingURL=business-profile.repository.js.map
+], MembershipPackageRepository);
+//# sourceMappingURL=membership-package.repository.js.map

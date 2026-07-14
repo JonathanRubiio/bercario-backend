@@ -12,12 +12,15 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.UserEntity = void 0;
 const typeorm_1 = require("typeorm");
 const business_profile_entity_1 = require("../../business-profile/entities/business-profile.entity");
+const membership_package_entity_1 = require("../../membership-package/entities/membership-package.entity");
 let UserEntity = class UserEntity {
     id;
     email;
     password;
     name;
     role;
+    membershipPackageId;
+    membershipPackage;
     profile;
     createdAt;
     updatedAt;
@@ -43,6 +46,15 @@ __decorate([
     (0, typeorm_1.Column)({ type: 'varchar', length: 50, default: 'mayorista' }),
     __metadata("design:type", String)
 ], UserEntity.prototype, "role", void 0);
+__decorate([
+    (0, typeorm_1.Column)({ type: 'varchar', length: 36, default: 'de305d54-75b4-431b-adb2-eb6b9e546014' }),
+    __metadata("design:type", String)
+], UserEntity.prototype, "membershipPackageId", void 0);
+__decorate([
+    (0, typeorm_1.ManyToOne)(() => membership_package_entity_1.MembershipPackageEntity, { nullable: true }),
+    (0, typeorm_1.JoinColumn)({ name: 'membershipPackageId' }),
+    __metadata("design:type", membership_package_entity_1.MembershipPackageEntity)
+], UserEntity.prototype, "membershipPackage", void 0);
 __decorate([
     (0, typeorm_1.OneToOne)(() => business_profile_entity_1.BusinessProfileEntity, (profile) => profile.user, { cascade: true }),
     __metadata("design:type", business_profile_entity_1.BusinessProfileEntity)

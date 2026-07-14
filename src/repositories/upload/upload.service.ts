@@ -1,12 +1,17 @@
-import { Injectable, OnModuleInit } from '@nestjs/common';
+import { Injectable, OnModuleInit, BadRequestException } from '@nestjs/common';
 import { S3Client, PutObjectCommand, CreateBucketCommand, HeadBucketCommand, PutBucketPolicyCommand } from '@aws-sdk/client-s3';
+import { UserRepository } from '../user/repositories/user.repository';
+import { BusinessProfileRepository } from '../business-profile/repositories/business-profile.repository';
 
 @Injectable()
 export class UploadService implements OnModuleInit {
   private s3Client: S3Client;
   private bucket: string;
 
-  constructor() {
+  constructor(
+    private readonly userRepo: UserRepository,
+    private readonly profileRepo: BusinessProfileRepository,
+  ) {
     const endpoint = process.env.S3_ENDPOINT;
     this.bucket = process.env.S3_BUCKET || 'bercario';
 
@@ -19,6 +24,22 @@ export class UploadService implements OnModuleInit {
       },
       forcePathStyle: true, // Requerido para MinIO local
     });
+  }
+
+  async validateCatalogLimit(userId: string): Promise<void> {
+    const user = await this.userRepo.find()
+      .leftJoinAndSelect('user.membershipPackage', 'membershipPackage')
+      .where('user.id = :id', { id: userId })
+      .getOne();
+
+    const profile = await this.profileRepo.findById({ userId });
+
+    if (profile && user?.membershipPackage) {
+      const currentImagesCount = profile.products ? profile.products.length : 0;
+      if (currentImagesCount >= user.membershipPackage.maxCatalogImages) {
+        throw new BadRequestException('Has alcanzado el límite de imágenes permitidas en tu plan actual. Actualiza tu membresía.');
+      }
+    }
   }
 
   async onModuleInit() {

@@ -122,6 +122,7 @@ let LeadService = class LeadService {
                     password: hashedPassword,
                     name: lead.businessName,
                     role: 'mayorista',
+                    membershipPackageId: 'de305d54-75b4-431b-adb2-eb6b9e546014',
                 });
                 await this.profileRepo.create({
                     userId: newUser.id,

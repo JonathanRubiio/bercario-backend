@@ -37,11 +37,12 @@ const typeorm_1 = require("typeorm");
 const user_entity_1 = require("./repositories/user/entities/user.entity");
 const business_profile_entity_1 = require("./repositories/business-profile/entities/business-profile.entity");
 const lead_entity_1 = require("./repositories/lead/entities/lead.entity");
+const membership_package_entity_1 = require("./repositories/membership-package/entities/membership-package.entity");
 const bcrypt = __importStar(require("bcryptjs"));
 const AppDataSource = new typeorm_1.DataSource({
     type: 'mysql',
     url: process.env.DATABASE_URL || 'mysql://bercario_user:bercario_pass@localhost:3306/bercario',
-    entities: [user_entity_1.UserEntity, business_profile_entity_1.BusinessProfileEntity, lead_entity_1.LeadEntity],
+    entities: [user_entity_1.UserEntity, business_profile_entity_1.BusinessProfileEntity, lead_entity_1.LeadEntity, membership_package_entity_1.MembershipPackageEntity],
     synchronize: true,
 });
 async function main() {
@@ -50,12 +51,19 @@ async function main() {
     await AppDataSource.query('DELETE FROM lead');
     await AppDataSource.query('DELETE FROM business_profile');
     await AppDataSource.query('DELETE FROM user');
+    await AppDataSource.query('DELETE FROM membership_package');
+    const freePackage = await AppDataSource.getRepository(membership_package_entity_1.MembershipPackageEntity).save({
+        id: 'de305d54-75b4-431b-adb2-eb6b9e546014',
+        name: 'Free',
+        maxCatalogImages: 5,
+    });
     const mayoristaPass = await bcrypt.hash('demo1234', 10);
     const mayorista = await AppDataSource.getRepository(user_entity_1.UserEntity).save({
         email: 'mayorista@demo.co',
         password: mayoristaPass,
         name: 'Calzado La Frontera User',
         role: 'mayorista',
+        membershipPackageId: freePackage.id,
     });
     await AppDataSource.getRepository(business_profile_entity_1.BusinessProfileEntity).save({
         userId: mayorista.id,
@@ -154,6 +162,7 @@ async function main() {
         password: adminPass,
         name: 'Administrador Berçário',
         role: 'admin',
+        membershipPackageId: freePackage.id,
     });
     console.log('Semilla de base de datos completada exitosamente con TypeORM.');
     await AppDataSource.destroy();
