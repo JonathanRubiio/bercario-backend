@@ -1,12 +1,23 @@
 import { Module } from '@nestjs/common';
+import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { AuthModule } from './auth/auth.module';
-import { ProfileModule } from './profile/profile.module';
-import { LeadsModule } from './leads/leads.module';
+import { AuthModule } from './repositories/auth/auth.module';
+import { BusinessProfileModule } from './repositories/business-profile/business-profile.module';
+import { LeadModule } from './repositories/lead/lead.module';
 
 @Module({
-  imports: [AuthModule, ProfileModule, LeadsModule],
+  imports: [
+    TypeOrmModule.forRoot({
+      type: 'mysql',
+      url: process.env.DATABASE_URL || 'mysql://bercario_user:bercario_pass@localhost:3306/bercario',
+      entities: [__dirname + '/repositories/**/*.entity{.ts,.js}'],
+      synchronize: true,
+    }),
+    AuthModule,
+    BusinessProfileModule,
+    LeadModule,
+  ],
   controllers: [AppController],
   providers: [AppService],
 })
