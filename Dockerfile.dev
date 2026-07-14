@@ -1,0 +1,20 @@
+FROM node:20-alpine AS base
+
+RUN apk add --no-cache libc6-compat
+
+ENV APP_ENV=local
+
+WORKDIR /app
+
+# Copy dependency files first for caching
+COPY package.json package-lock.json ./
+
+RUN npm install
+
+# Copy the rest of the project
+COPY . .
+
+FROM base AS local
+
+EXPOSE 8000
+CMD ["npm", "run", "start:dev"]

@@ -1,0 +1,25 @@
+import { AuthService } from './auth.service';
+export declare class AuthController {
+    private readonly authService;
+    constructor(authService: AuthService);
+    login(body: any): Promise<{
+        token: string;
+        user: {
+            id: string;
+            email: string;
+            name: string;
+            role: string;
+            businessSlug: string | undefined;
+        };
+    }>;
+    getProfile(req: any): Promise<{
+        id: string;
+        email: string;
+        name: string;
+        role: string;
+        businessSlug: string | undefined;
+    }>;
+    logout(): Promise<{
+        success: boolean;
+    }>;
+}

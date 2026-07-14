@@ -1,0 +1,54 @@
+services:
+  bercario_backend_local:
+    platform: linux/arm64
+    container_name: bercario_backend_local
+    hostname: bercario_backend_local
+    restart: unless-stopped
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+      target: local
+    environment:
+      - HTTP_PROXY=
+      - HTTPS_PROXY=
+      - http_proxy=
+      - https_proxy=
+      - ALL_PROXY=
+      - all_proxy=
+      - DB_HOST=mariadb
+      - DATABASE_URL=mysql://bercario_user:bercario_pass@mariadb:3306/bercario
+      - JWT_SECRET=super-secret-key-12345
+      - PORT=8000
+    ports:
+      - 8000:8000
+    networks:
+      - bercario_backend_network
+    volumes:
+      - .:/app
+      - /app/node_modules
+    command: npm run start:dev
+    depends_on:
+      - mariadb
+
+  mariadb:
+    image: mariadb:latest
+    container_name: bercario_mariadb
+    restart: unless-stopped
+    environment:
+      MARIADB_ROOT_PASSWORD: rootpassword
+      MARIADB_DATABASE: bercario
+      MARIADB_USER: bercario_user
+      MARIADB_PASSWORD: bercario_pass
+    ports:
+      - "3306:3306"
+    networks:
+      - bercario_backend_network
+    volumes:
+      - mariadb_data:/var/lib/mysql
+
+networks:
+  bercario_backend_network:
+    driver: bridge
+
+volumes:
+  mariadb_data:
