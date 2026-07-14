@@ -144,6 +144,7 @@ async function main() {
   const hashedPassword = await bcrypt.hash(plainPassword, 10);
 
   // Limpiar base de datos
+  await prisma.lead.deleteMany().catch(() => {});
   await prisma.businessProfile.deleteMany().catch(() => {});
   await prisma.user.deleteMany().catch(() => {});
 
@@ -154,6 +155,17 @@ async function main() {
       password: hashedPassword,
       name: 'Calzado La Frontera User',
       role: 'mayorista',
+    },
+  });
+
+  // Crear usuario administrador
+  const adminPassword = await bcrypt.hash('admin1234', 10);
+  await prisma.user.create({
+    data: {
+      email: 'admin@bercario.co',
+      password: adminPassword,
+      name: 'Administrador Berçário',
+      role: 'admin',
     },
   });
 
