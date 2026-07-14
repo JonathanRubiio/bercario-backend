@@ -5,6 +5,7 @@ import { AppService } from './app.service';
 import { AuthModule } from './repositories/auth/auth.module';
 import { BusinessProfileModule } from './repositories/business-profile/business-profile.module';
 import { LeadModule } from './repositories/lead/lead.module';
+import { UploadModule } from './repositories/upload/upload.module';
 
 @Module({
   imports: [
@@ -17,6 +18,7 @@ import { LeadModule } from './repositories/lead/lead.module';
     AuthModule,
     BusinessProfileModule,
     LeadModule,
+    UploadModule,
   ],
   controllers: [AppController],
   providers: [AppService],

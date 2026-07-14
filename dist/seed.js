@@ -71,24 +71,24 @@ async function main() {
         products: [
             {
                 id: 'p1',
-                name: 'Mocasines Cuero Clásico',
+                title: 'Mocasines Cuero Clásico',
                 price: '89.900',
-                image: '/images/products/shoe1.png',
-                desc: 'Mocasines elegantes 100% cuero genuino, suela antideslizante.',
+                image: '/images/product-sneakers.png',
+                description: 'Mocasines elegantes 100% cuero genuino, suela antideslizante.',
             },
             {
                 id: 'p2',
-                name: 'Tenis Deportivos Urban',
+                title: 'Tenis Deportivos Urban',
                 price: '110.000',
-                image: '/images/products/shoe2.png',
-                desc: 'Tenis cómodos para el uso diario, materiales transpirables.',
+                image: '/images/product-boots.png',
+                description: 'Tenis cómodos para el uso diario, materiales transpirables.',
             },
             {
                 id: 'p3',
-                name: 'Botas de Cuero Frontier',
+                title: 'Botas de Cuero Frontier',
                 price: '145.000',
-                image: '/images/products/shoe3.png',
-                desc: 'Botas resistentes de alta durabilidad, ideales para todo terreno.',
+                image: '/images/product-handbag.png',
+                description: 'Botas resistentes de alta durabilidad, ideales para todo terreno.',
             },
         ],
         testimonials: [

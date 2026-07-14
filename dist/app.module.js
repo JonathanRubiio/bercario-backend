@@ -14,6 +14,7 @@ const app_service_1 = require("./app.service");
 const auth_module_1 = require("./repositories/auth/auth.module");
 const business_profile_module_1 = require("./repositories/business-profile/business-profile.module");
 const lead_module_1 = require("./repositories/lead/lead.module");
+const upload_module_1 = require("./repositories/upload/upload.module");
 let AppModule = class AppModule {
 };
 exports.AppModule = AppModule;
@@ -29,6 +30,7 @@ exports.AppModule = AppModule = __decorate([
             auth_module_1.AuthModule,
             business_profile_module_1.BusinessProfileModule,
             lead_module_1.LeadModule,
+            upload_module_1.UploadModule,
         ],
         controllers: [app_controller_1.AppController],
         providers: [app_service_1.AppService],
