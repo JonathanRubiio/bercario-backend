@@ -30,6 +30,7 @@ let BusinessProfileEntity = class BusinessProfileEntity {
     faqs;
     gallery;
     sections;
+    landingConfig;
     createdAt;
     updatedAt;
 };
@@ -103,6 +104,10 @@ __decorate([
     (0, typeorm_1.Column)({ type: 'simple-json' }),
     __metadata("design:type", Array)
 ], BusinessProfileEntity.prototype, "sections", void 0);
+__decorate([
+    (0, typeorm_1.Column)({ type: 'json', nullable: true }),
+    __metadata("design:type", Array)
+], BusinessProfileEntity.prototype, "landingConfig", void 0);
 __decorate([
     (0, typeorm_1.CreateDateColumn)(),
     __metadata("design:type", Date)

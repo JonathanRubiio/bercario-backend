@@ -65,6 +65,77 @@ let BusinessProfileService = class BusinessProfileService {
         }
         return updated;
     }
+    getInitialLandingConfig(profile) {
+        return [
+            {
+                id: 'banner',
+                type: 'banner',
+                order: 1,
+                visible: true,
+                content: {
+                    title: profile.name || 'Mi Negocio',
+                    tagline: profile.tagline || 'Slogan del negocio',
+                    bgGradientFrom: '#ffffff',
+                    bgGradientTo: '#f4f4f5',
+                    textColor: '#09090b',
+                },
+            },
+            {
+                id: 'about',
+                type: 'about',
+                order: 2,
+                visible: true,
+                content: {
+                    title: 'Quiénes somos',
+                    description: profile.description || 'Descripción del negocio...',
+                    bgGradientFrom: '#f4f4f5',
+                    bgGradientTo: '#ffffff',
+                },
+            },
+            {
+                id: 'products',
+                type: 'products',
+                order: 3,
+                visible: true,
+                content: {
+                    title: 'Catálogo Destacado',
+                    showPrice: true,
+                    buttonText: 'Hacer Pedido',
+                },
+            },
+            {
+                id: 'contact',
+                type: 'contact',
+                order: 4,
+                visible: true,
+                content: {
+                    title: 'Contacto',
+                    phone: profile.phone || '',
+                    email: profile.email || '',
+                    address: profile.address || '',
+                },
+            },
+        ];
+    }
+    async getLandingConfig(userId) {
+        const profile = await this.profileRepo.findById({ userId });
+        if (!profile) {
+            throw new common_1.NotFoundException('Perfil de negocio no encontrado');
+        }
+        if (!profile.landingConfig || profile.landingConfig.length === 0) {
+            return this.getInitialLandingConfig(profile);
+        }
+        return profile.landingConfig.sort((a, b) => a.order - b.order);
+    }
+    async updateLandingConfig(userId, config) {
+        const profile = await this.profileRepo.findById({ userId });
+        if (!profile) {
+            throw new common_1.NotFoundException('Perfil de negocio no encontrado');
+        }
+        const sortedConfig = config.sort((a, b) => a.order - b.order);
+        await this.profileRepo.update({ id: profile.id }, { landingConfig: sortedConfig });
+        return sortedConfig;
+    }
 };
 exports.BusinessProfileService = BusinessProfileService;
 exports.BusinessProfileService = BusinessProfileService = __decorate([

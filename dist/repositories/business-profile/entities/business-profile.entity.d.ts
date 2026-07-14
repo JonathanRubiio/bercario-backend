@@ -17,6 +17,7 @@ export declare class BusinessProfileEntity {
     faqs: any[];
     gallery: string[];
     sections: any[];
+    landingConfig: any[];
     createdAt: Date;
     updatedAt: Date;
 }

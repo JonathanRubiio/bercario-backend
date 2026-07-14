@@ -55,6 +55,9 @@ export class BusinessProfileEntity {
   @Column({ type: 'simple-json' })
   sections: any[];
 
+  @Column({ type: 'json', nullable: true })
+  landingConfig: any[];
+
   @CreateDateColumn()
   createdAt: Date;
 

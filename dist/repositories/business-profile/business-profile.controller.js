@@ -16,6 +16,7 @@ exports.BusinessProfileController = void 0;
 const common_1 = require("@nestjs/common");
 const business_profile_service_1 = require("./business-profile.service");
 const jwt_auth_guard_1 = require("../auth/jwt-auth.guard");
+const landing_config_dto_1 = require("./dto/landing-config.dto");
 let BusinessProfileController = class BusinessProfileController {
     profileService;
     constructor(profileService) {
@@ -32,6 +33,12 @@ let BusinessProfileController = class BusinessProfileController {
     }
     async updateSections(req, sections) {
         return this.profileService.updateSections(req.user.id, sections);
+    }
+    async getLandingConfig(req) {
+        return this.profileService.getLandingConfig(req.user.id);
+    }
+    async updateLandingConfig(req, body) {
+        return this.profileService.updateLandingConfig(req.user.id, body.config);
     }
 };
 exports.BusinessProfileController = BusinessProfileController;
@@ -68,6 +75,23 @@ __decorate([
     __metadata("design:paramtypes", [Object, Array]),
     __metadata("design:returntype", Promise)
 ], BusinessProfileController.prototype, "updateSections", null);
+__decorate([
+    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
+    (0, common_1.Get)('landing-page/config'),
+    __param(0, (0, common_1.Request)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", Promise)
+], BusinessProfileController.prototype, "getLandingConfig", null);
+__decorate([
+    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
+    (0, common_1.Post)('landing-page/config'),
+    __param(0, (0, common_1.Request)()),
+    __param(1, (0, common_1.Body)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object, landing_config_dto_1.SaveLandingConfigDto]),
+    __metadata("design:returntype", Promise)
+], BusinessProfileController.prototype, "updateLandingConfig", null);
 exports.BusinessProfileController = BusinessProfileController = __decorate([
     (0, common_1.Controller)(),
     __metadata("design:paramtypes", [business_profile_service_1.BusinessProfileService])
