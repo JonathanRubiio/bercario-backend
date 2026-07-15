@@ -8,6 +8,7 @@ import { LeadModule } from './repositories/lead/lead.module';
 import { UploadModule } from './repositories/upload/upload.module';
 import { MembershipPackageModule } from './repositories/membership-package/membership-package.module';
 import { LandingModule } from './repositories/landing/landing.module';
+import { DomainModule } from './repositories/domain/domain.module';
 
 @Module({
   imports: [
@@ -23,6 +24,7 @@ import { LandingModule } from './repositories/landing/landing.module';
     UploadModule,
     MembershipPackageModule,
     LandingModule,
+    DomainModule,
   ],
   controllers: [AppController],
   providers: [AppService],

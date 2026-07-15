@@ -1,6 +1,39 @@
 import { IsString, IsNumber, IsBoolean, IsObject, IsNotEmpty, IsArray, ValidateNested, IsOptional, IsEnum } from 'class-validator';
 import { Type } from 'class-transformer';
 
+export class ElementDto {
+  @IsString()
+  @IsNotEmpty()
+  id: string;
+
+  @IsString()
+  @IsNotEmpty()
+  type: string;
+
+  @IsObject()
+  @IsOptional()
+  content?: Record<string, any>;
+
+  @IsObject()
+  @IsOptional()
+  styles?: Record<string, any>;
+}
+
+export class ColumnDto {
+  @IsString()
+  @IsNotEmpty()
+  id: string;
+
+  @IsString()
+  @IsNotEmpty()
+  width: string;
+
+  @IsArray()
+  @ValidateNested({ each: true })
+  @Type(() => ElementDto)
+  elements: ElementDto[];
+}
+
 export class LandingConfigItemDto {
   @IsString()
   @IsNotEmpty()
@@ -16,8 +49,27 @@ export class LandingConfigItemDto {
   @IsBoolean()
   visible: boolean;
 
+  @IsString()
+  @IsOptional()
+  label?: string;
+
+  @IsString()
+  @IsOptional()
+  description?: string;
+
   @IsObject()
-  content: Record<string, any>;
+  @IsOptional()
+  styles?: Record<string, any>;
+
+  @IsArray()
+  @IsOptional()
+  @ValidateNested({ each: true })
+  @Type(() => ColumnDto)
+  columns?: ColumnDto[];
+
+  @IsObject()
+  @IsOptional()
+  content?: Record<string, any>;
 }
 
 export class GlobalStylesDto {

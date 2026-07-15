@@ -1,4 +1,4 @@
-import { Entity, PrimaryGeneratedColumn, Column, OneToOne, JoinColumn, CreateDateColumn, UpdateDateColumn } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, OneToOne, JoinColumn, CreateDateColumn, UpdateDateColumn, Index } from 'typeorm';
 import { UserEntity } from '../../user/entities/user.entity';
 
 @Entity('business_profile')
@@ -66,6 +66,17 @@ export class BusinessProfileEntity {
 
   @Column({ type: 'varchar', length: 255, default: 'Servicios Profesionales' })
   niche: string;
+
+  @Index({ unique: true })
+  @Column({ type: 'varchar', length: 255, nullable: true })
+  customDomain: string;
+
+  @Index({ unique: true })
+  @Column({ type: 'varchar', length: 100, nullable: true })
+  subdomain: string;
+
+  @Column({ type: 'boolean', default: false })
+  domainVerified: boolean;
 
   @CreateDateColumn()
   createdAt: Date;

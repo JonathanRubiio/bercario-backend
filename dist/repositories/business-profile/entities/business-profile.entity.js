@@ -34,6 +34,9 @@ let BusinessProfileEntity = class BusinessProfileEntity {
     templateId;
     globalStyles;
     niche;
+    customDomain;
+    subdomain;
+    domainVerified;
     createdAt;
     updatedAt;
 };
@@ -123,6 +126,20 @@ __decorate([
     (0, typeorm_1.Column)({ type: 'varchar', length: 255, default: 'Servicios Profesionales' }),
     __metadata("design:type", String)
 ], BusinessProfileEntity.prototype, "niche", void 0);
+__decorate([
+    (0, typeorm_1.Index)({ unique: true }),
+    (0, typeorm_1.Column)({ type: 'varchar', length: 255, nullable: true }),
+    __metadata("design:type", String)
+], BusinessProfileEntity.prototype, "customDomain", void 0);
+__decorate([
+    (0, typeorm_1.Index)({ unique: true }),
+    (0, typeorm_1.Column)({ type: 'varchar', length: 100, nullable: true }),
+    __metadata("design:type", String)
+], BusinessProfileEntity.prototype, "subdomain", void 0);
+__decorate([
+    (0, typeorm_1.Column)({ type: 'boolean', default: false }),
+    __metadata("design:type", Boolean)
+], BusinessProfileEntity.prototype, "domainVerified", void 0);
 __decorate([
     (0, typeorm_1.CreateDateColumn)(),
     __metadata("design:type", Date)

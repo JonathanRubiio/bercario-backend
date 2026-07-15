@@ -21,6 +21,9 @@ export declare class BusinessProfileEntity {
     templateId: string;
     globalStyles: any;
     niche: string;
+    customDomain: string;
+    subdomain: string;
+    domainVerified: boolean;
     createdAt: Date;
     updatedAt: Date;
 }
