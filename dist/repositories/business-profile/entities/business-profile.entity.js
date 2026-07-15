@@ -31,6 +31,9 @@ let BusinessProfileEntity = class BusinessProfileEntity {
     gallery;
     sections;
     landingConfig;
+    templateId;
+    globalStyles;
+    niche;
     createdAt;
     updatedAt;
 };
@@ -108,6 +111,18 @@ __decorate([
     (0, typeorm_1.Column)({ type: 'json', nullable: true }),
     __metadata("design:type", Array)
 ], BusinessProfileEntity.prototype, "landingConfig", void 0);
+__decorate([
+    (0, typeorm_1.Column)({ type: 'varchar', length: 255, nullable: true }),
+    __metadata("design:type", String)
+], BusinessProfileEntity.prototype, "templateId", void 0);
+__decorate([
+    (0, typeorm_1.Column)({ type: 'json', nullable: true }),
+    __metadata("design:type", Object)
+], BusinessProfileEntity.prototype, "globalStyles", void 0);
+__decorate([
+    (0, typeorm_1.Column)({ type: 'varchar', length: 255, default: 'Servicios Profesionales' }),
+    __metadata("design:type", String)
+], BusinessProfileEntity.prototype, "niche", void 0);
 __decorate([
     (0, typeorm_1.CreateDateColumn)(),
     __metadata("design:type", Date)

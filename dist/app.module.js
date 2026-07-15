@@ -16,6 +16,7 @@ const business_profile_module_1 = require("./repositories/business-profile/busin
 const lead_module_1 = require("./repositories/lead/lead.module");
 const upload_module_1 = require("./repositories/upload/upload.module");
 const membership_package_module_1 = require("./repositories/membership-package/membership-package.module");
+const landing_module_1 = require("./repositories/landing/landing.module");
 let AppModule = class AppModule {
 };
 exports.AppModule = AppModule;
@@ -33,6 +34,7 @@ exports.AppModule = AppModule = __decorate([
             lead_module_1.LeadModule,
             upload_module_1.UploadModule,
             membership_package_module_1.MembershipPackageModule,
+            landing_module_1.LandingModule,
         ],
         controllers: [app_controller_1.AppController],
         providers: [app_service_1.AppService],

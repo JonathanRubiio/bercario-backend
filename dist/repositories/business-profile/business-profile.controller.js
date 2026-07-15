@@ -37,8 +37,11 @@ let BusinessProfileController = class BusinessProfileController {
     async getLandingConfig(req) {
         return this.profileService.getLandingConfig(req.user.id);
     }
+    async getTemplates() {
+        return this.profileService.getTemplates();
+    }
     async updateLandingConfig(req, body) {
-        return this.profileService.updateLandingConfig(req.user.id, body.config);
+        return this.profileService.updateLandingConfig(req.user.id, body);
     }
 };
 exports.BusinessProfileController = BusinessProfileController;
@@ -85,11 +88,18 @@ __decorate([
 ], BusinessProfileController.prototype, "getLandingConfig", null);
 __decorate([
     (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
-    (0, common_1.Post)('landing-page/config'),
+    (0, common_1.Get)('landing-page/templates'),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", Promise)
+], BusinessProfileController.prototype, "getTemplates", null);
+__decorate([
+    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
+    (0, common_1.Put)('landing-page/config'),
     __param(0, (0, common_1.Request)()),
     __param(1, (0, common_1.Body)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object, landing_config_dto_1.SaveLandingConfigDto]),
+    __metadata("design:paramtypes", [Object, landing_config_dto_1.UpdateLandingConfigDto]),
     __metadata("design:returntype", Promise)
 ], BusinessProfileController.prototype, "updateLandingConfig", null);
 exports.BusinessProfileController = BusinessProfileController = __decorate([

@@ -7,6 +7,7 @@ import { BusinessProfileModule } from './repositories/business-profile/business-
 import { LeadModule } from './repositories/lead/lead.module';
 import { UploadModule } from './repositories/upload/upload.module';
 import { MembershipPackageModule } from './repositories/membership-package/membership-package.module';
+import { LandingModule } from './repositories/landing/landing.module';
 
 @Module({
   imports: [
@@ -21,6 +22,7 @@ import { MembershipPackageModule } from './repositories/membership-package/membe
     LeadModule,
     UploadModule,
     MembershipPackageModule,
+    LandingModule,
   ],
   controllers: [AppController],
   providers: [AppService],

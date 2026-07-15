@@ -9,7 +9,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.SaveLandingConfigDto = exports.LandingConfigItemDto = void 0;
+exports.UpdateLandingConfigDto = exports.GlobalStylesDto = exports.LandingConfigItemDto = void 0;
 const class_validator_1 = require("class-validator");
 const class_transformer_1 = require("class-transformer");
 class LandingConfigItemDto {
@@ -42,14 +42,47 @@ __decorate([
     (0, class_validator_1.IsObject)(),
     __metadata("design:type", Object)
 ], LandingConfigItemDto.prototype, "content", void 0);
-class SaveLandingConfigDto {
-    config;
+class GlobalStylesDto {
+    paletteId;
+    fontPairId;
+    buttonStyle;
 }
-exports.SaveLandingConfigDto = SaveLandingConfigDto;
+exports.GlobalStylesDto = GlobalStylesDto;
+__decorate([
+    (0, class_validator_1.IsString)(),
+    (0, class_validator_1.IsNotEmpty)(),
+    __metadata("design:type", String)
+], GlobalStylesDto.prototype, "paletteId", void 0);
+__decorate([
+    (0, class_validator_1.IsString)(),
+    (0, class_validator_1.IsNotEmpty)(),
+    __metadata("design:type", String)
+], GlobalStylesDto.prototype, "fontPairId", void 0);
+__decorate([
+    (0, class_validator_1.IsEnum)(['rounded', 'square', 'pill']),
+    __metadata("design:type", String)
+], GlobalStylesDto.prototype, "buttonStyle", void 0);
+class UpdateLandingConfigDto {
+    templateId;
+    landingConfig;
+    globalStyles;
+}
+exports.UpdateLandingConfigDto = UpdateLandingConfigDto;
+__decorate([
+    (0, class_validator_1.IsString)(),
+    (0, class_validator_1.IsOptional)(),
+    __metadata("design:type", String)
+], UpdateLandingConfigDto.prototype, "templateId", void 0);
 __decorate([
     (0, class_validator_1.IsArray)(),
     (0, class_validator_1.ValidateNested)({ each: true }),
     (0, class_transformer_1.Type)(() => LandingConfigItemDto),
     __metadata("design:type", Array)
-], SaveLandingConfigDto.prototype, "config", void 0);
+], UpdateLandingConfigDto.prototype, "landingConfig", void 0);
+__decorate([
+    (0, class_validator_1.IsObject)(),
+    (0, class_validator_1.ValidateNested)(),
+    (0, class_transformer_1.Type)(() => GlobalStylesDto),
+    __metadata("design:type", GlobalStylesDto)
+], UpdateLandingConfigDto.prototype, "globalStyles", void 0);
 //# sourceMappingURL=landing-config.dto.js.map

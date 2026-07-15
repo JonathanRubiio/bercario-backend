@@ -18,6 +18,9 @@ export declare class BusinessProfileEntity {
     gallery: string[];
     sections: any[];
     landingConfig: any[];
+    templateId: string;
+    globalStyles: any;
+    niche: string;
     createdAt: Date;
     updatedAt: Date;
 }

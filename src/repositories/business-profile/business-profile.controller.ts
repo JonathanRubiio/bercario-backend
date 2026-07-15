@@ -1,7 +1,7 @@
 import { Controller, Get, Put, Post, Body, Param, UseGuards, Request } from '@nestjs/common';
 import { BusinessProfileService } from './business-profile.service';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
-import { SaveLandingConfigDto } from './dto/landing-config.dto';
+import { UpdateLandingConfigDto } from './dto/landing-config.dto';
 
 @Controller()
 export class BusinessProfileController {
@@ -41,10 +41,17 @@ export class BusinessProfileController {
     return this.profileService.getLandingConfig(req.user.id);
   }
 
-  // POST /landing-page/config - Guardar la configuración del constructor de la landing page (Privado)
+  // GET /landing-page/templates - Obtener catálogo de plantillas base (Privado)
   @UseGuards(JwtAuthGuard)
-  @Post('landing-page/config')
-  async updateLandingConfig(@Request() req: any, @Body() body: SaveLandingConfigDto) {
-    return this.profileService.updateLandingConfig(req.user.id, body.config);
+  @Get('landing-page/templates')
+  async getTemplates() {
+    return this.profileService.getTemplates();
+  }
+
+  // PUT /landing-page/config - Guardar la configuración del constructor de la landing page (Privado)
+  @UseGuards(JwtAuthGuard)
+  @Put('landing-page/config')
+  async updateLandingConfig(@Request() req: any, @Body() body: UpdateLandingConfigDto) {
+    return this.profileService.updateLandingConfig(req.user.id, body);
   }
 }

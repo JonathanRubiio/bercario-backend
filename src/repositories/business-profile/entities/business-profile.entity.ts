@@ -58,6 +58,15 @@ export class BusinessProfileEntity {
   @Column({ type: 'json', nullable: true })
   landingConfig: any[];
 
+  @Column({ type: 'varchar', length: 255, nullable: true })
+  templateId: string;
+
+  @Column({ type: 'json', nullable: true })
+  globalStyles: any;
+
+  @Column({ type: 'varchar', length: 255, default: 'Servicios Profesionales' })
+  niche: string;
+
   @CreateDateColumn()
   createdAt: Date;
 
