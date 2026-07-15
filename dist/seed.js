@@ -38,16 +38,20 @@ const user_entity_1 = require("./repositories/user/entities/user.entity");
 const business_profile_entity_1 = require("./repositories/business-profile/entities/business-profile.entity");
 const lead_entity_1 = require("./repositories/lead/entities/lead.entity");
 const membership_package_entity_1 = require("./repositories/membership-package/entities/membership-package.entity");
+const success_story_entity_1 = require("./repositories/marketing/entities/success-story.entity");
+const blog_post_entity_1 = require("./repositories/marketing/entities/blog-post.entity");
 const bcrypt = __importStar(require("bcryptjs"));
 const AppDataSource = new typeorm_1.DataSource({
     type: 'mysql',
     url: process.env.DATABASE_URL || 'mysql://bercario_user:bercario_pass@localhost:3306/bercario',
-    entities: [user_entity_1.UserEntity, business_profile_entity_1.BusinessProfileEntity, lead_entity_1.LeadEntity, membership_package_entity_1.MembershipPackageEntity],
+    entities: [user_entity_1.UserEntity, business_profile_entity_1.BusinessProfileEntity, lead_entity_1.LeadEntity, membership_package_entity_1.MembershipPackageEntity, success_story_entity_1.SuccessStoryEntity, blog_post_entity_1.BlogPostEntity],
     synchronize: true,
 });
 async function main() {
     console.log('Iniciando semilla de base de datos con TypeORM...');
     await AppDataSource.initialize();
+    await AppDataSource.query('DELETE FROM success_stories');
+    await AppDataSource.query('DELETE FROM blog_posts');
     await AppDataSource.query('DELETE FROM lead');
     await AppDataSource.query('DELETE FROM business_profile');
     await AppDataSource.query('DELETE FROM user');
@@ -164,6 +168,72 @@ async function main() {
         role: 'admin',
         membershipPackageId: freePackage.id,
     });
+    console.log('Sembrando casos de éxito...');
+    await AppDataSource.getRepository(success_story_entity_1.SuccessStoryEntity).save([
+        {
+            merchant: 'Calzado La Frontera',
+            location: 'Cúcuta',
+            owner: 'Héctor Delgado',
+            niche: 'Zapatos y Marroquinería',
+            metric: '12.000+',
+            metricLabel: 'Visitas mensuales al catálogo',
+            growth: '+38%',
+            growthLabel: 'en pedidos recibidos',
+            quote: 'Publicar nuestro catálogo de calzado mayorista en Berçário nos permitió conectar con 500+ tenderos de Pamplona, Ocaña y Bucaramanga sin pagar costosos desarrolladores.',
+            avatar: 'CF',
+        },
+        {
+            merchant: 'Modas El Progreso',
+            location: 'Atalaya, Cúcuta',
+            owner: 'Rosaura Beltrán',
+            niche: 'Confección y Ropa Femenina',
+            metric: '4.800+',
+            metricLabel: 'Interacciones de WhatsApp',
+            growth: '2.5x',
+            growthLabel: 'ahorro de tiempo de atención',
+            quote: 'Mis clientas de Arauca y Arauquita solían demorarse horas preguntándome precios por WhatsApp. Ahora ven mi link de Berçário y me envían el pedido listo.',
+            avatar: 'MP',
+        },
+        {
+            merchant: 'Marroquinería Santander',
+            location: 'Villa del Rosario',
+            owner: 'Camilo Jaimes',
+            niche: 'Bolsos y Accesorios de Cuero',
+            metric: '850+',
+            metricLabel: 'Mayoristas registrados',
+            growth: '+22%',
+            growthLabel: 'de incremento en ticket promedio',
+            quote: 'La landing es súper rápida y se ve impecable en móviles. En esta región con señal inestable, la velocidad de carga es crucial para cerrar ventas.',
+            avatar: 'MS',
+        },
+    ]);
+    console.log('Sembrando artículos de blog...');
+    await AppDataSource.getRepository(blog_post_entity_1.BlogPostEntity).save([
+        {
+            title: 'Cómo digitalizar tu catálogo mayorista sin perder el trato humano',
+            excerpt: 'Aprende a estructurar tus categorías de productos y precios al por mayor para facilitar la compra digital manteniendo el contacto directo por WhatsApp.',
+            date: 'Julio 10, 2026',
+            author: 'Jonathan Rubio',
+            readTime: '5 min de lectura',
+            category: 'Estrategia',
+        },
+        {
+            title: '5 claves de SEO Local para que tenderos de todo el país te encuentren en Google',
+            excerpt: 'Guía práctica para posicionar tu bodega o fábrica mayorista en Cúcuta en las búsquedas locales. Trucos de palabras clave y optimización técnica.',
+            date: 'Julio 02, 2026',
+            author: 'Valeria Solano',
+            readTime: '7 min de lectura',
+            category: 'SEO',
+        },
+        {
+            title: 'El poder de las Landings Modulares: Por qué no necesitas una web compleja',
+            excerpt: 'Descubre por qué las páginas de aterrizaje sencillas y rápidas convierten un 40% más que las tiendas virtuales tradicionales llenas de opciones confusas.',
+            date: 'Junio 26, 2026',
+            author: 'Mateo Cárdenas',
+            readTime: '4 min de lectura',
+            category: 'Diseño UX',
+        },
+    ]);
     console.log('Semilla de base de datos completada exitosamente con TypeORM.');
     await AppDataSource.destroy();
 }

@@ -18,6 +18,7 @@ const upload_module_1 = require("./repositories/upload/upload.module");
 const membership_package_module_1 = require("./repositories/membership-package/membership-package.module");
 const landing_module_1 = require("./repositories/landing/landing.module");
 const domain_module_1 = require("./repositories/domain/domain.module");
+const marketing_module_1 = require("./repositories/marketing/marketing.module");
 let AppModule = class AppModule {
 };
 exports.AppModule = AppModule;
@@ -37,6 +38,7 @@ exports.AppModule = AppModule = __decorate([
             membership_package_module_1.MembershipPackageModule,
             landing_module_1.LandingModule,
             domain_module_1.DomainModule,
+            marketing_module_1.MarketingModule,
         ],
         controllers: [app_controller_1.AppController],
         providers: [app_service_1.AppService],

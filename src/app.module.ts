@@ -9,6 +9,7 @@ import { UploadModule } from './repositories/upload/upload.module';
 import { MembershipPackageModule } from './repositories/membership-package/membership-package.module';
 import { LandingModule } from './repositories/landing/landing.module';
 import { DomainModule } from './repositories/domain/domain.module';
+import { MarketingModule } from './repositories/marketing/marketing.module';
 
 @Module({
   imports: [
@@ -25,6 +26,7 @@ import { DomainModule } from './repositories/domain/domain.module';
     MembershipPackageModule,
     LandingModule,
     DomainModule,
+    MarketingModule,
   ],
   controllers: [AppController],
   providers: [AppService],
